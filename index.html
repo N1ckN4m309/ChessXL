@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Chess XL</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="brand">
+                <span class="brand-label">MYSTIC GRID</span>
+                <span class="brand-name">Chess XL</span>
+            </div>
+            <div class="header-meta">
+                <div class="mode-chip">Dream Realm</div>
+                <div class="rank-chip">Card Mage</div>
+            </div>
+            <div id="user-badge" class="user-badge">Not signed in</div>
+        </div>
+        <div id="status-row">
+            <div id="status">Awakening...</div>
+            <div id="game-notes">Build your formation, keep it under 16 pieces and 39 total relative value, exactly 1 king is required.</div>
+        </div>
+    </header>
+
+    <main id="app-sections">
+        <section id="home-screen">
+            <div class="home-card">
+                <div class="home-title">Choose your path</div>
+                <div class="home-copy">Start a match, build a deck, or inspect the leaderboard.</div>
+                <div class="home-actions">
+                    <button id="btn-play" type="button">Play</button>
+                    <button id="btn-build" type="button">Build</button>
+                    <button id="home-leaderboard-btn" type="button">Leaderboard</button>
+                    <button id="btn-account" type="button">Login / Register</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="account-screen" class="hidden">
+            <div class="section-header">
+                <div>
+                    <h2>Account</h2>
+                    <p class="section-subtitle">Manage your online profile and PvP access.</p>
+                </div>
+                <button id="btn-home-from-account" class="secondary">Return Home</button>
+            </div>
+            <div class="account-panel">
+                <div class="panel-header"><span>Profile</span></div>
+                <div class="panel-body">
+                    <div><strong>Username:</strong> <span id="account-username">-</span></div>
+                    <div class="panel-note" style="margin-top:12px;">Use this screen to verify your login and sign out before switching accounts.</div>
+                    <button id="btn-logout" class="danger" style="margin-top:18px; width:100%;">Logout</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="play-screen" class="hidden">
+            <div class="section-header">
+                <div>
+                    <h2>Play</h2>
+                    <p class="section-subtitle">Choose PvP or AI and start the match.</p>
+                </div>
+                <button id="btn-home-from-play" class="secondary">Return Home</button>
+            </div>
+            <div id="play-panel">
+                <div class="play-options">
+                    <button id="btn-start-pvp">Start PvP</button>
+                    <button id="btn-start-ai">Start AI</button>
+                </div>
+                <div id="play-status" class="play-status">No active match. Choose a mode to begin.</div>
+                <div id="play-area" class="hidden">
+                    <section id="board-card">
+                        <div id="chessboard"></div>
+                    </section>
+                    <aside id="sidebar">
+                        <div class="panel-header"><span>Move Log</span><span class="panel-tag">Live</span></div>
+                        <ol id="move-log"></ol>
+                        <button id="btn-resign" class="danger">Resign</button>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section id="build-screen" class="hidden">
+            <div class="section-header">
+                <div>
+                    <h2>Build</h2>
+                    <p class="section-subtitle">Construct your deck within the competitive constraints.</p>
+                </div>
+                <button id="btn-home-from-build" class="secondary">Return Home</button>
+            </div>
+            <div id="build-panel">
+                <div id="build-left">
+                    <div class="panel-header"><span>Piece Palette</span><span class="panel-tag">Draft</span></div>
+                    <div id="palette"></div>
+                    <div class="build-instructions" id="build-instructions">Select a piece then click a slot to place it in the first two ranks.</div>
+                    <div class="panel-note" id="selected-piece">Selected: none</div>
+                    <div class="panel-header"><span>Add Selected Piece</span></div>
+                    <button id="btn-add-to-pool" class="secondary">Add to first empty slot</button>
+                    <div class="panel-header"><span>Saved Decks</span></div>
+                    <select id="deck-select"></select>
+                    <input id="deck-name" placeholder="Deck name">
+                    <div class="deck-actions">
+                        <button id="btn-save-deck">Save Deck</button>
+                        <button id="btn-export-deck">Export</button>
+                    </div>
+                    <div id="build-stats"></div>
+                </div>
+                <div id="build-board-wrapper">
+                    <div class="panel-header"><span>Piece Pool</span></div>
+                    <div id="buildboard" class="build-pool"></div>
+                    <div id="build-tutorial" class="panel-note">Tip: select a piece, then place it into your build pool. Keep your deck under 16 pieces and 39 total value.</div>
+                    <div class="build-actions"><button id="btn-clear-build">CLEAR POOL</button></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="leaderboard-screen" class="hidden">
+            <div class="section-header">
+                <div>
+                    <h2>Leaderboard</h2>
+                    <p class="section-subtitle">Track top builds, match records, and competitive rankings.</p>
+                </div>
+                <button id="btn-home-from-leaderboard" class="secondary">Return Home</button>
+            </div>
+            <div class="leaderboard-panel">
+                <p>Leaderboard content goes here. Save deck results to populate this view.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Promotion modal -->
+    <div id="promotion-modal" class="hidden">
+        <div class="promo-content">
+            <div class="promo-title">Promote to:</div>
+            <div class="promo-choices">
+                <button data-piece="q">♕</button>
+                <button data-piece="r">♖</button>
+                <button data-piece="b">♗</button>
+                <button data-piece="n">♘</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result modal -->
+    <div id="result-modal" class="hidden">
+        <div class="result-content">
+            <div class="result-title" id="result-title"></div>
+            <div class="result-copy">Checkmate delivered. Great game.</div>
+            <div class="result-actions">
+                <button id="btn-result-play-again" type="button">Play Again</button>
+                <button id="btn-result-home" class="secondary" type="button">Return Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth modal -->
+    <div id="auth-modal" class="hidden">
+        <div class="auth-content">
+            <h3>Sign in or Register</h3>
+            <div class="auth-field">
+                <label>Username</label>
+                <input id="auth-username" type="text" placeholder="username">
+            </div>
+            <div class="auth-field">
+                <label>Password</label>
+                <input id="auth-password" type="password" placeholder="password">
+            </div>
+            <div class="auth-actions">
+                <button id="auth-register">Register</button>
+                <button id="auth-login">Login</button>
+                <button id="auth-cancel" class="secondary">Cancel</button>
+            </div>
+            <div id="auth-status" class="panel-note"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
